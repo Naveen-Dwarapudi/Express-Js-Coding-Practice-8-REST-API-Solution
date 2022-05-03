@@ -30,20 +30,27 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
+//Checking has priority and status properties or not
 const hasPriorityAndStatusProperties = (requestQuery) => {
   return (
     requestQuery.priority !== undefined && requestQuery.status !== undefined
   );
 };
 
+//Checking priority property
 const hasPriorityProperty = (requestQuery) => {
   return requestQuery.priority !== undefined;
 };
 
+//Checking status property
 const hasStatusProperty = (requestQuery) => {
   return requestQuery.status !== undefined;
 };
 
+//Getting list of all todos whose status is 'TO DO'
+//Getting list of all todos whose priority is 'HIGH'
+//Getting list of all todos whose priority is 'HIGH' and status is 'IN PROGRESS'
+//Getting list of all todos whose todo contains 'Play' text
 app.get("/todos/", async (request, response) => {
   let data = null;
   let getTodoQuery = "";
@@ -95,6 +102,7 @@ app.get("/todos/", async (request, response) => {
   response.send(data);
 });
 
+//Getting a specific todo based on the todo ID
 app.get("/todos/:todoId/", async (request, response) => {
   const { todoId } = request.params;
 
@@ -109,6 +117,7 @@ app.get("/todos/:todoId/", async (request, response) => {
   response.send(todo);
 });
 
+//Creating a todo in the todo table,
 app.post("/todos/", async (request, response) => {
   const { id, todo, priority, status } = request.body;
   const postTodoQuery = `
@@ -120,6 +129,7 @@ app.post("/todos/", async (request, response) => {
   response.send("Todo Successfully Added");
 });
 
+//Updating the details of a specific todo based on the todo ID
 app.put("/todos/:todoId/", async (request, response) => {
   const { todoId } = request.params;
   let updateColumn = "";
@@ -164,6 +174,7 @@ app.put("/todos/:todoId/", async (request, response) => {
   response.send(`${updateColumn} Updated`);
 });
 
+//Deleting a todo from the todo table based on the todo ID
 app.delete("/todos/:todoId/", async (request, response) => {
   const { todoId } = request.params;
   const deleteTodoQuery = `
